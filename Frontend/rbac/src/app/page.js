@@ -7,7 +7,7 @@ export default function Home() {
             <Navbar />
             <div className="pt-16 bg-gradient-to-br from-purple-200 via-purple-100 to-purple-50 h-screen">
 
-                <header className="text-center py-16 px-6 bg-purple-200 shadow-inner">
+                <header className="text-center py-16 px-6">
                     <h1 className="text-4xl md:text-6xl font-bold text-purple-700">
                         Simplified Role-Based Access Control
                     </h1>
