@@ -19,19 +19,18 @@ model User {
   email     String   @unique
   password  String
   roleId    String   @db.ObjectId
-  role      Role     @relation(fields: [roleId], references: [id])
+  role      Role     @relation(fields: [roleId], references: [id], name: "UserRole")
   status    Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Role {
-  id          String       @id @default(auto()) @map("_id") @db.ObjectId
-  roleId      String[]     @db.ObjectId
-  name        String       @unique
-  permissions Permission[] @relation(fields: [roleId], references: [id])
-
-  users User[]
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  roleId      String[] @db.ObjectId
+  name        String   @unique
+  permissions String[] @db.ObjectId
+  users       User[]   @relation(name: "UserRole")
 }
 
 model Permission {
@@ -39,5 +38,4 @@ model Permission {
   permissionId String[] @db.ObjectId
   name         String
   description  String
-  roles        Role[]   @relation(fields: [permissionId], references: [id])
 }

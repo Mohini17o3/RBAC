@@ -1,6 +1,8 @@
+'use client' ; 
 import Link from "next/link";
 
 function Navbar() {
+    const token = localStorage.getItem("token");
     return (
         <>
    <div className="flex justify-between items-center top-0 w-screen fixed p-2 bg-purple-300 shadow-md z-10">
@@ -11,11 +13,17 @@ function Navbar() {
   
     </div>
     <div className="flex flex-row gap-0">
-    <Link href="/Login">
+     {
+        token ? (<Link href="/Dashboard">
     <button className="bg-purple-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-purple-400 hover:text-white border border-purple-500 transition mr-4">
      Login
     </button>
-     </Link>   
+     </Link>  ) :( <Link href="/Login">
+    <button className="bg-purple-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-purple-400 hover:text-white border border-purple-500 transition mr-4">
+     Login
+    </button> </Link>)
+     }
+    
     <Link href="/SignUp">
     <button className="bg-white text-purple-500 px-4 py-2 rounded-md font-semibold hover:bg-purple-400 hover:text-white border border-purple-500 transition mr-4">
                 Sign Up

@@ -59,7 +59,9 @@ export const signup = async(req , res)=>{
         const {email , password}  = req.body ; 
 
         try {
-            const user = await prisma.user.findUnique({where : {email}});
+            const user = await prisma.user.findUnique({where : {email}  , include: {
+                role: true  
+            }});
 
             if(!user) {
                 return res.status(404).json({message : 'User not found'});
@@ -74,7 +76,7 @@ export const signup = async(req , res)=>{
 
             // token generation , after passwrd valid
             const token = jwt.sign({
-                id : user.id, email : user.email }
+                id : user.id, email : user.email  , role: user.role.name, }
                 , SECRET  , 
                 {expiresIn : '1h'} 
             ); 

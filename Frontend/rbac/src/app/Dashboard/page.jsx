@@ -13,8 +13,8 @@ function DashBoard() {
   const [alert, setAlert] = useState(false);
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  // Check authentication
+  const [sidebarOpen, setSidebarOpen] = useState(true); // Track sidebar state
+  const[isAdmin , setIsAdmin] = useState(false);
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -27,7 +27,6 @@ function DashBoard() {
     }
   }, [router]);
 
-  // Fetch users from API
   const fetchUsers = async (token) => {
     try {
       const response = await fetch("http://localhost:8000/users", {
@@ -37,7 +36,12 @@ function DashBoard() {
       });
       if (response.ok) {
         const data = await response.json();
-        setUsers(data);
+        console.log("Fetched data:", data);
+        setUsers(data.users);
+        if(data.currentUserRole === "admin"){
+          console.log("Admin role detected:", data.currentUserRole);
+          setIsAdmin(true);
+        }
       } else {
         console.error("Failed to fetch users");
       }
@@ -67,14 +71,19 @@ function DashBoard() {
   return (
     <>
       <SidebarProvider>
-        <div className="flex h-screen">
-          <div className="flex-shrink-0 relative">
-            <div className="absolute top-4 left-40 z-50">
-              <SidebarTrigger />
+        <div className="flex h-screen bg-gray-50">
+          <div
+            className={`transition-all duration-300 ${sidebarOpen ? "w-64" : "w-16"} bg-purple-300 relative`}
+          >
+            <div className="absolute top-4 left-4 z-50">
+              <SidebarTrigger onClick={() => setSidebarOpen(!sidebarOpen)} />
             </div>
             <AppSidebar />
           </div>
-          <div className="flex-1 overflow-y-auto p-6 bg-gray-50">
+
+          <div
+            className={`flex-1 transition-all duration-300 ${sidebarOpen ? "ml-64" : "w-screen"} mt-6 ml-6 `}
+          >
             <h1 className="text-2xl font-semibold mb-4">User Management</h1>
             {loading ? (
               <p>Loading users...</p>
@@ -87,11 +96,14 @@ function DashBoard() {
                       <CardDescription>{user.email}</CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <p>Role: {user.name}</p>
+                      <p>Name: {user.name}</p>
+                      <p>Role: {user.role.name}</p>
                       <p>Status: {user.status ? "Active" : "Inactive"}</p>
                     </CardContent>
                     <CardFooter>
-                      <Button variant="outline">Edit</Button>
+                      {isAdmin ? (
+                        <Button variant="outline">Edit</Button>
+                      ) : null}
                     </CardFooter>
                   </Card>
                 ))}

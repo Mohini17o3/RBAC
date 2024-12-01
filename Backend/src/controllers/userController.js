@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-// Create a new user
+
 export const createUser = async (req, res) => {
   try {
     const { email, name, roleId, status } = req.body;
@@ -26,16 +26,35 @@ export const createUser = async (req, res) => {
   }
 };
 
-// Get all users
 export const getUsers = async (req, res) => {
+  const currentUserRole = req.user.role;
+
   try {
     const users = await prisma.user.findMany({
-      include: { role: true }, // Include role details
+      include: { role: {
+        select :{
+          name : true , 
+        }
+      } }, 
     });
 
-    res.status(200).json(users);
+    res.status(200).json({users , currentUserRole});
   } catch (error) {
     console.error("Error fetching users:", error.message || error);
     res.status(500).json({ error: error.message || "Internal Server Error" });  }
 };
+
+// export const updateUsers =  async(req , res) => {
+//     const {email} = req.body ; 
+//     try {
+//         const users = await prisma.user.update({
+//             where : {
+//                 email , 
+//             } , 
+//             data : {
+                
+//             }
+//         })
+//     }
+// }
 

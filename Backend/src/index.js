@@ -3,6 +3,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import authRoutes from './routes/authRoutes.js';
 import userRoutes from './routes/userRoutes.js';
+import { authenticateToken } from './middlewares/authMiddleware.js';
 // import roleRoutes from './routes/roleRoutes.js';
 // import permissionRoutes from './routes/permissionRoutes.js';
 
@@ -13,7 +14,7 @@ app.use(bodyParser.json()) ;
 
 
 app.use('/auth' , authRoutes) ;
-app.use('/users' , userRoutes) ;
+app.use('/users', authenticateToken, userRoutes);
 // app.use('/roles' , roleRoutes);
 // app.use('/permissions' , permissionRoutes) ;
 
