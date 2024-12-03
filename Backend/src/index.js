@@ -15,8 +15,6 @@ app.use(bodyParser.json()) ;
 
 app.use('/auth' , authRoutes) ;
 app.use('/users', authenticateToken, userRoutes);
-// app.use('/roles' , roleRoutes);
-// app.use('/permissions' , permissionRoutes) ;
 
 
 app.listen(8000 ,  () => console.log(`Server runnning on port ${port}`)) ;

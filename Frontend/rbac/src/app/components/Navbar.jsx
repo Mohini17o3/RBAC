@@ -1,8 +1,30 @@
 'use client' ; 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 function Navbar() {
-    const token = localStorage.getItem("token");
+    
+    const [isTokenExpired , setIsTokenExpired] = useState(false) ;
+
+    useEffect(()=>{
+
+        const localToken = localStorage.getItem("token") ;
+
+        if(localToken){
+            const decodedToken = JSON.parse(atob(localToken.split(".")[1]));
+
+             if(decodedToken.exp *1000 < Date.now()) {
+                localStorage.removeItem("token");
+                setIsTokenExpired(true) ;
+             } else{
+                setIsTokenExpired(false) ;
+             }
+        } else {
+            setIsTokenExpired(true) ;
+
+        }
+    } , [])
+
     return (
         <>
    <div className="flex justify-between items-center top-0 w-screen fixed p-2 bg-purple-300 shadow-md z-10">
@@ -14,13 +36,13 @@ function Navbar() {
     </div>
     <div className="flex flex-row gap-0">
      {
-        token ? (<Link href="/Dashboard">
+        isTokenExpired ? (<Link href="/Login">
     <button className="bg-purple-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-purple-400 hover:text-white border border-purple-500 transition mr-4">
      Login
     </button>
-     </Link>  ) :( <Link href="/Login">
+     </Link>  ) :( <Link href="/Dashboard">
     <button className="bg-purple-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-purple-400 hover:text-white border border-purple-500 transition mr-4">
-     Login
+     Dashboard
     </button> </Link>)
      }
     

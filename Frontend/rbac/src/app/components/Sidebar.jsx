@@ -1,136 +1,124 @@
 'use client';
-import { Calendar, Home, Inbox, Lock, Search, Settings, User } from "lucide-react"
-import { useState } from "react" 
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from "@/components/ui/sidebar"
+
+import { Calendar as CalendarIcon, Home, Inbox, Lock, Search, User } from "lucide-react";
+import { Calendar } from "@/components/ui/calendar";
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import {
-    Drawer,
-    DrawerClose,
-    DrawerContent,
-    DrawerDescription,
-    DrawerFooter,
-    DrawerHeader,
-    DrawerTitle,
-    DrawerTrigger,
-  } from "@/components/ui/drawer"
+import { Dialog , DialogContent , DialogTrigger , DialogTitle  , DialogHeader} from  "@/components/ui/dialog";
 
-
-
-  
 
 const items = [
+  { title: "Home", url: "/", icon: Home },
+  { title: "Inbox", url: "#", icon: Inbox },
+  { title: "Calendar", url: "#", icon: CalendarIcon },
+  { title: "Search", url: "#", icon: Search },
+];
 
-    {
-        title: "Home" , 
-        url: "/", 
-        icon : Home, 
-    }  ,
-    {
-        title: "Inbox" , 
-        url: "#", 
-        icon : Inbox, 
-    }  ,
-    {
-        title: "Calendar" , 
-        url: "#", 
-        icon :Calendar, 
-    }  ,
-    {
-        title: "Search" , 
-        url: "#", 
-        icon : Search, 
-    }  ,
-    {
-        title: "Create User" , 
-        url: "#", 
-        icon : User, 
-
-    }  ,
-    {
-        title: "Log Out" , 
-        url: "/", 
-        icon : Lock, 
-        
-    }  ,
-
-]
 export function AppSidebar() {
+  const [date, setDate] = useState(new Date());
+  const [currentUser, setCurrentUser] = useState(null); 
+  const router = useRouter();
 
+  const fetchCurrentUser = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch("http://localhost:8000/users", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setCurrentUser({
+          name: data.currentUser,
+          role: data.currentUserRole,
+          email: data.currentUserEmail,
+        });
+      } else {
+        console.error("Failed to fetch current user");
+      }
+    } catch (error) {
+      console.error("Error fetching current user:", error);
+    }
+  };
 
-    
-const router = useRouter();
+  useEffect(() => {
+    fetchCurrentUser();
+  }, []);
 
-   const handleLogout = ()=>{
+  const handleLogout = () => {
     localStorage.removeItem("token");
     router.push("/Login");
-   }
-
- 
+  };
 
   return (
-<>
+    <>
+      <Sidebar>
+        <SidebarContent className="bg-purple-300 border shadow-md">
+          <SidebarGroup>
+            <SidebarGroupLabel>Application</SidebarGroupLabel>
+            <SidebarMenu>
 
+              {items.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    {item.title === "Calendar" ? (
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <button className="flex flex-row items-center w-full p-2 rounded gap-2 hover:bg-white  transition duration-300 ">
+                              <item.icon size={20} />
+                              <span>{item.title}</span>
+                            </button>
+                          </DialogTrigger>
+                          <DialogContent className="max-w-md mx-auto p-4">
+                            <DialogHeader>
+                              <DialogTitle>Calendar</DialogTitle>
+                            </DialogHeader>
+                            <div className="p-4">
+                              <Calendar
+                                selected={date}
+                                onSelect={(selectedDate) => setDate(selectedDate)}
+                                className="rounded-md border"
+                              />
+                              <p className="text-center mt-4">
+                                Today’s Date: {date.toDateString()}
+                              </p>
+                            </div>
+                          </DialogContent>
+                        </Dialog>
+                      )  : (
+                      <Link href={item.url} className="w-full flex items-center gap-2 p-2 rounded hover:bg-white">
+                        <item.icon size={20} />
+                        <span>{item.title}</span>
+                      </Link>
+                    )}
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroup>
 
-    <Sidebar >
-    <SidebarContent className = "bg-purple-300 border shadow-md">
-      <SidebarGroup>
-        <SidebarGroupLabel>Application</SidebarGroupLabel>
-        <SidebarGroupContent>
-          <SidebarMenu>
-            {items.map((item) => (
-              <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton asChild>
-                {item.title == "Log Out" ? (
-                    <Button onClick={handleLogout}>
-                    <item.icon />
-                     <span>{item.title}</span>
-                   </Button>
-                ): item.title == "Create User" ?  (
-         <Drawer>
-      <DrawerTrigger className="flex flex-row"><item.icon />Create User</DrawerTrigger>
-       <DrawerContent>
-       <DrawerHeader>
-      <DrawerTitle>Are you absolutely sure?</DrawerTitle>
-      <DrawerDescription>This action cannot be undone.</DrawerDescription>
-    </DrawerHeader>
-    <DrawerFooter>
-      <Button>Submit</Button>
-      <DrawerClose>
-        <Button variant="outline">Cancel</Button>
-      </DrawerClose>
-    </DrawerFooter>
-  </DrawerContent>
-</Drawer>
-          ) : 
-                
-               ( <Link href={item.url}>
-                    <item.icon />
-                    <span>{item.title}</span>
-                  </Link>) }  
+          {currentUser && (
+            <div className="mt-auto p-4 border-t border-gray-300">
+              <div className="flex flex-col items-center text-center">
+                <User size={40} />
+                <h4 className="text-lg font-semibold mt-2">{currentUser.name}</h4>
+                <p className="text-sm text-gray-500">{currentUser.role}</p>
+                <p className="text-sm text-gray-500">{currentUser.email}</p>
+              </div>
+            </div>
+          )}
 
-                  
+          <Button onClick={handleLogout} className="w-full flex items-center gap-2 mb-6">
+                        <Lock size={20} />
+                        <span>LogOut</span>
+                      </Button>
+        </SidebarContent>
 
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            ))}
-          </SidebarMenu>
-        </SidebarGroupContent>
-      </SidebarGroup>
-    </SidebarContent>
-  </Sidebar>
-
-
-  </>
-  )
+      </Sidebar>
+    </>
+  );
 }
