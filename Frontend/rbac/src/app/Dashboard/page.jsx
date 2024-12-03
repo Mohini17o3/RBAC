@@ -31,7 +31,7 @@
     const fetchUsers = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch("http://localhost:8000/users", {
+        const response = await fetch("https://rbac-x6hw.onrender.com/users", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -74,7 +74,7 @@
            isupdate ? 
           
           
-          `http://localhost:8000/users/${editingUser.id}`  :   "http://localhost:8000/users", 
+          `https://rbac-x6hw.onrender.com/users/${editingUser.id}`  :   "https://rbac-x6hw.onrender.com/users", 
           {
           method:  isupdate ? "PATCH" : "POST",
           headers: {
@@ -126,7 +126,7 @@
     const handleConfirmDelete = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch(`http://localhost:8000/users/${deleteUserId}`, {
+        const response = await fetch(`https://rbac-x6hw.onrender.com/users/${deleteUserId}`, {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${token}`,

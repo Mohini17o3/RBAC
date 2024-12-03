@@ -25,7 +25,7 @@ export function AppSidebar() {
   const fetchCurrentUser = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:8000/users", {
+      const response = await fetch("https://rbac-x6hw.onrender.com/users", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
