@@ -40,7 +40,7 @@ git clone https://github.com/Mohini17o3/RBAC.git
 cd RBAC
 ```
 
-###2 .Set up the Frontend
+### 2. Set up the Frontend
 Navigate to the frontend directory and install the dependencies:
 
 ```bash
@@ -48,7 +48,7 @@ cd Frontend/rbac
 npm install
 ```
 
-###3. Set up the Backend
+### 3. Set up the Backend
 Navigate to the backend directory and install the dependencies:
 
 ```bash
@@ -64,7 +64,7 @@ DATABASE_URL=YOUR_DATABASE_CONNECTION_URL
 TOKEN_SECRET=YOUR_TOKEN_SECRET
 ```
 
-###5. Run the Frontend Server
+### 5. Run the Frontend Server
 Start the frontend development server:
 
 ```bash
@@ -73,7 +73,7 @@ npm run dev
 
 ```
 
-###6. Run the Backend Server
+### 6. Run the Backend Server
 Start the backend server:
 
 ```bash
