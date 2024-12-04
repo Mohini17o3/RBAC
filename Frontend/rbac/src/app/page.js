@@ -1,5 +1,7 @@
 import Link from "next/link";
 import Navbar from "./components/Navbar";
+import { motion } from "motion/react" ;
+
 
 export default function Home() {
     return (
