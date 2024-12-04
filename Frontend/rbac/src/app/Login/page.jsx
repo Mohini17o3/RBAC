@@ -37,12 +37,11 @@ function Login() {
                 const data = await response.json();
                 console.log("Login success");
                 localStorage.setItem("token", data.token);
-                    router.push("/Dashboard") ;
-
-             
+                    router.push("/Dashboard") ;          
             } else {
                 const error = await response.json();
                 console.error("Login failed", error.message);
+                alert("please try logging again , and kindly check your credentials , else refresh , thanks !")
             }
         } catch (e) {
             console.log(e);
