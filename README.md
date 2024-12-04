@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project is a Role-Based Access Control (RBAC) application built using **Next.js**, **MongoDB**, **Prisma**, and **Express**. It offers a secure authentication and authorization system for managing user roles and permissions. The application features role-specific access to different resources, making it ideal for managing user roles in various systems.
+This project is a Role-Based Access Control (RBAC) application built using **Next.js**, **MongoDB**, **Prisma**, and **Express** , **Tailwind** and **Shadcn** for styling. It offers a secure authentication and authorization system for managing user roles and permissions. The application features role-specific access to different resources, making it ideal for managing user roles in various systems.
 
 ## Features
 
