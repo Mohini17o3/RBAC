@@ -13,6 +13,8 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import Image from 'next/image';
+
 
 function SignUp() {
   const [name, setName] = useState("");
@@ -54,10 +56,12 @@ function SignUp() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 h-screen">
       <div className="hidden md:block h-full">
-        <img
-          src="setting2.jpg"
-          alt="setting"
-          className="w-full h-full object-cover"
+        <Image
+                   src="/setting2.jpg"
+                    alt="setting"
+                    width="1920" 
+                    height="1080"
+                    className="w-full h-full object-cover"
         />
       </div>
 

@@ -29,7 +29,7 @@ function Navbar() {
         <>
    <div className="flex justify-between items-center top-0 w-screen fixed p-2 bg-purple-300 shadow-md z-10">
    <div className="flex space-x-6 "> 
-    <a href="/" className="cursor-pointer text-purple-500 hover:text-gray-300 transition font-bold" >Home</a>
+    <Link href="/" className="cursor-pointer text-purple-500 hover:text-gray-300 transition font-bold" >Home</Link>
     <a className="cursor-pointer text-purple-500 hover:text-gray-300 font-bold transition">Features</a>
     <a className="cursor-pointer text-purple-500 hover:text-gray-300 font-bold transition">Contact</a>
   

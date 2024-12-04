@@ -8,6 +8,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
+import Image from 'next/image';
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
@@ -53,9 +54,11 @@ function Login() {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 h-screen">
             <div className="hidden md:block h-full">
-                <img
-                    src="setting2.jpg"
+                <Image
+                    src="/setting2.jpg"
                     alt="setting"
+                    width="1920" 
+                    height="1080"
                     className="w-full h-full object-cover"
                 />
             </div>
