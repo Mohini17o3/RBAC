@@ -33,21 +33,55 @@ Make sure you have the following installed:
 
 ### 1. Clone the repository
 
+Follow the instructions below to set up the project on your local machine.
+
 ```bash
 git clone https://github.com/Mohini17o3/RBAC.git
+cd RBAC
+```
+
+###2 .Set up the Frontend
+Navigate to the frontend directory and install the dependencies:
+
+```bash
 cd Frontend/rbac
 npm install
+```
+
+###3. Set up the Backend
+Navigate to the backend directory and install the dependencies:
+
+```bash
 cd Backend
 npm install
-- Create a .env.local file at the root of your project and add the following variables:
-DATABASE_URL= YOUR_DATABASE_CONNECTION_URL
-TOKEN_SECRET = YOUR_TOKEN_SECRET
+```
 
-###  Run the Frontend server
+### 4. Configure Environment Variables
+Create a .env.local file in the root of your Backend project and add the following environment variables:
+
+```bash
+DATABASE_URL=YOUR_DATABASE_CONNECTION_URL
+TOKEN_SECRET=YOUR_TOKEN_SECRET
+```
+
+###5. Run the Frontend Server
+Start the frontend development server:
+
+```bash
+cd Frontend/rbac
 npm run dev
-### Run the Backend server
-node src/index.js
 
+```
+
+###6. Run the Backend Server
+Start the backend server:
+
+```bash
+cd Backend
+node src/index.js
+```
+
+Your application should now be running locally with both the frontend and backend servers.
 
 
 
